@@ -4,6 +4,7 @@
 from abc import ABCMeta, abstractmethod
 
 import attr
+import logging
 
 from .util import ElementGetter, suffix_to_char
 
@@ -26,7 +27,7 @@ class Oscillator(object):
       if typ == "sample":
         return SampleOscillator.from_element(element)
       else:
-        print("Unsupported oscillator type: {}".format(typ))
+        logging.warning("Unsupported oscillator type: {}".format(typ))
         return Oscillator(typ=typ)
 
 

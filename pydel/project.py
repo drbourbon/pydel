@@ -11,6 +11,7 @@ from .util import ElementGetter, SAMPLE_RATE_HZ, PPQN, SECONDS_PER_MINUTE
 @attr.s
 class Project(object):
   tempo = attr.ib()
+  rootTone = attr.ib()
   instruments = attr.ib(factory=list)
   sections = attr.ib(factory=list)
   clips = attr.ib(factory=list)
@@ -23,6 +24,7 @@ class Project(object):
           tempo=deluge_timer_to_tempo(
               e.get_attrib("timePerTimerTick", int),
               e.get_attrib("timerTickFraction", int)),
+          rootTone=rootNoteToPitchName(e.get_attrib("rootNote", int)),
           instruments=e.get_child("instruments", Project._parse_instruments,
                                   []),
           sections=e.get_child("sections", Project._parse_sections, []),
@@ -77,3 +79,6 @@ def deluge_timer_to_tempo(time_per_timer_tick, timer_tick_fraction):
   tempo = SAMPLE_RATE_HZ / PPQN * SECONDS_PER_MINUTE / samples_per_pulse
 
   return tempo
+
+def rootNoteToPitchName(rootNote):
+  return ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"][rootNote % 12]    
