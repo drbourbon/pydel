@@ -4,6 +4,7 @@
 from abc import ABCMeta, abstractmethod
 
 import attr
+import logging
 
 from .oscillator import Oscillator
 from .util import ElementGetter, suffix_to_char
@@ -200,5 +201,5 @@ class Kit(Instrument):
       if child.tag == "sound":
         sound_sources.append(Sound.from_element(child))
       else:
-        print("Unsupported child tag in soundSources: {}".format(child.tag))
+        logging.warning("Unsupported child tag in soundSources: {}".format(child.tag))
     return sound_sources

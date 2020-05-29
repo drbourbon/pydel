@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import logging
 import attr
 
 SAMPLE_RATE_HZ = 44100
@@ -52,12 +53,12 @@ class ElementGetter(object):
     for name in self.element.attrib:
       if (name not in self._unused_attribs and
           name not in self._attribs_gotten and self.nag):
-        print("Warning: Unused attrib on {}: {}".format(self.element.tag, name))
+        logging.warning("Warning: Unused attrib on {}: {}".format(self.element.tag, name))
 
     for child in self.element:
       if (child.tag not in self._unused_children and
           child.tag not in self._children_gotten and self.nag):
-        print("Warning: Unused child on {}: {}".format(self.element.tag,
+        logging.warning("Warning: Unused child on {}: {}".format(self.element.tag,
                                                        child.tag))
 
   def has_attrib(self, name):
